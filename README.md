@@ -5,7 +5,7 @@ naturellement en français, avec une latence optimisée grâce au streaming.
 
 ---
 
-## 🏗️ Architecture du pipeline
+## Architecture du pipeline
 
 ```
 Micro
@@ -23,7 +23,7 @@ Haut-parleur
 
 ---
 
-## ⚡ Stack technique
+## Stack technique
 
 | Brique | Service | Rôle |
 |--------|---------|------|
@@ -34,7 +34,7 @@ Haut-parleur
 
 ---
 
-## ✅ Fonctionnalités
+## Fonctionnalités
 
 - 🎤 Détection automatique de fin de parole sans durée fixe
 - 🌊 Streaming Groq + TTS pour une latence minimale (~500-700ms)
@@ -45,7 +45,7 @@ Haut-parleur
 
 ---
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```
 VoIP/
@@ -75,7 +75,7 @@ VoIP/
 
 ---
 
-## 📄 Description de chaque fichier
+## Description de chaque fichier
 
 ### `main.py`
 Point d'entrée du projet.
@@ -181,7 +181,7 @@ Utilitaires de conversion audio.
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ```bash
 # Cloner le projet
@@ -201,7 +201,7 @@ pip3 install -r requirements.txt
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 Dans `config/settings.py`, renseigne tes clés API :
 
@@ -212,7 +212,7 @@ GROQ_API_KEY       = "ta_clé_groq"
 
 ---
 
-## ▶️ Utilisation
+## Utilisation
 
 ```bash
 # Activer l'environnement virtuel
@@ -227,15 +227,9 @@ python3 test_chat.py
 
 ---
 
-## 📌 Prérequis
+## Prérequis
 
 - Python 3.10+
 - Microphone fonctionnel
 - Compte gratuit [ElevenLabs](https://elevenlabs.io)
 - Compte gratuit [Groq](https://groq.com)
-
----
-
-## 📄 Licence
-
-MIT

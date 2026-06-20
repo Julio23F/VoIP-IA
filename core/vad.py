@@ -1,24 +1,12 @@
 import pyaudio
-import webrtcvad
-from config.settings import (
-    SAMPLE_RATE,
-    CHUNK_DURATION_MS,
-    SILENCE_DURATION_MS,
-    VAD_AGGRESSIVENESS
-)
+import numpy as np
+from config.settings import SAMPLE_RATE, SILENCE_DURATION_MS
+
+CHUNK_DURATION_MS = 30
+ENERGY_THRESHOLD = 2000  # ajuste si nécessaire
 
 def enregistrer_avec_vad() -> bytes:
-    """
-    Enregistre la voix et s'arrête automatiquement
-    après SILENCE_DURATION_MS ms de silence
-    """
-    vad = webrtcvad.Vad(VAD_AGGRESSIVENESS)
-
-    # Taille d'un chunk en samples
     chunk_samples = int(SAMPLE_RATE * CHUNK_DURATION_MS / 1000)
-    chunk_bytes = chunk_samples * 2  # int16 = 2 bytes
-
-    # Nombre de chunks silence avant d'arrêter
     max_silence_chunks = int(SILENCE_DURATION_MS / CHUNK_DURATION_MS)
 
     p = pyaudio.PyAudio()
@@ -40,21 +28,20 @@ def enregistrer_avec_vad() -> bytes:
         while True:
             frame = stream.read(chunk_samples, exception_on_overflow=False)
 
-            # Vérifier si c'est de la voix
-            try:
-                is_speech = vad.is_speech(frame, SAMPLE_RATE)
-            except Exception:
-                is_speech = False
+            # Calculer énergie du chunk
+            audio_np = np.frombuffer(frame, dtype=np.int16)
+            energy = np.abs(audio_np).mean()
+
+            is_speech = energy > ENERGY_THRESHOLD
 
             if is_speech:
                 if not speaking:
-                    print("🗣️  Parole détectée...")
+                    print(f"🗣️  Parole détectée (énergie: {energy:.0f})")
                 speaking = True
                 silence_count = 0
                 frames.append(frame)
 
             elif speaking:
-                # On est en train de parler mais silence détecté
                 silence_count += 1
                 frames.append(frame)
 
